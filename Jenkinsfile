@@ -2,9 +2,14 @@ node {
   try {
     stage('checkout') {
       checkout scm
+      sh "ls ./"
     }
-    stage('prepare') {
-      sh "git clean -fdx"
+    stage('simple'){
+      steps{
+        input message: 'Please input your name!!', ok: 'Confirm',
+          parameters: [string(defaultValue: 'rick',
+            description: 'This should not be your real name.', name: 'name', trim: true)]
+      }
     }
     stage('compile') {
       echo "nothing to compile for hello.sh..."
